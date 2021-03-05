@@ -37,8 +37,19 @@ export default {
     '@nuxtjs/pwa',
     // https://go.nuxtjs.dev/content
     '@nuxt/content',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    '@nuxtjs/apollo'
   ],
+  apollo: {
+    clientConfigs: {
+      default: {
+        httpLinkOptions: {
+           credentials: 'include'
+        },
+        httpEndpoint: 'http://localhost:8000/graphql',
+      }
+    }
+  },
   auth: {
     strategies: {
       local: {

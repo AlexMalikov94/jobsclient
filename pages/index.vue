@@ -5,13 +5,38 @@
     <p class="text-gray-600 font-medium">We're the best job board in the entire world.</p>
   </div>
   <div class="mt-10">
-    Jobs index
+    <job v-for="job in jobs" :key="job.id" :job="job"></job>
   </div>   
 </div>
 </template>
 
 <script>
-export default {}
+import gql from 'graphql-tag';
+import Job from '../components/Job.vue';
+export default {
+  components: { Job },
+  apollo: {
+     jobs: {
+       query: gql `
+          {
+              jobs(orderBy: [{ column: CREATED_AT, order:DESC}]) {
+                id,
+                job_title,
+                job_location,
+                job_link,
+                company_name,
+                company_logo,
+                tags {
+                  title,
+                  slug
+                }
+              }
+          }
+        `,
+        fetchPolicy: 'network-only'
+     }
+  }
+}
 </script>
 
 <style>
