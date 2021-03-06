@@ -11,30 +11,13 @@
 </template>
 
 <script>
-import gql from 'graphql-tag';
 import Job from '../components/Job.vue';
+import ALL_TAGS from '@/graphql/AllJobs.gql';
 export default {
   components: { Job },
   apollo: {
      jobs: {
-       query: gql `
-          {
-              jobs(orderBy: [{ column: CREATED_AT, order:DESC}, {column: PINNED, order:DESC}]) {
-                id,
-                job_title,
-                job_location,
-                job_link,
-                company_name,
-                company_logo,
-                highlighted,
-                pinned,
-                tags {
-                  title,
-                  slug
-                }
-              }
-          }
-        `,
+       query: ALL_TAGS,
         fetchPolicy: 'network-only'
      }
   }
