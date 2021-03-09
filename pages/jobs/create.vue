@@ -17,7 +17,7 @@
            </div>
            <div class="mb-4">
              <label for="tags" class="inline-block mb-1 font-medium">Tags</label>
-             <input type="text" name="tags" id="tags" class="bg-gray-200 border-2 border-gray-200 rounded-lg w-full h-10 px-4" v-model="form.tags">
+             <v-select inputId="tags" label="title" :reduce="tag => tag.id" :options="tags" multiple v-model="form.tags"></v-select>
            </div>
            <div class="mb-4">
              <label for="company_name" class="inline-block mb-1 font-medium">Company Name</label>
@@ -56,6 +56,7 @@
     </div>
 </template>
 <script>
+import ALL_TAGS from '@/graphql/AllTags.gql'
 export default {
     data() {
         return {
@@ -72,6 +73,11 @@ export default {
                 user_email:'',
                 user_password: ''
             }
+        }
+    },
+    apollo: {
+        tags: {
+            query: ALL_TAGS
         }
     }
 }
