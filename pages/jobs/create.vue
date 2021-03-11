@@ -1,6 +1,6 @@
 <template>
     <div class="mt-10 flex justify-center">
-        <form action="" class="w-6/12" @submit.prevent="login">
+        <form action="" class="w-6/12" @submit.prevent="submit">
         <div class="mb-10">
            <h2 class="mb-4 text-2xl font-bold">Listing Details</h2>
            <div class="mb-4">
@@ -57,6 +57,7 @@
 </template>
 <script>
 import ALL_TAGS from '@/graphql/AllTags.gql'
+import CREATE_JOB_WITH_USER from '@/graphql/CreateJobWithUser.gql'
 export default {
     data() {
         return {
@@ -79,6 +80,29 @@ export default {
         tags: {
             query: ALL_TAGS
         }
+    },
+    methods: {
+      createListingWithUser() {
+         this.$apollo.mutate({
+           mutation: CREATE_JOB_WITH_USER,
+           variables: this.form
+         }).then(() => {
+           this.$axios.$get('/sanctum/csrf-cookie').then(response => {
+                console.log(response);
+                  this.$auth.loginWith('local', {
+                      data:  {
+                        email: this.form.user_email,
+                        password: this.form.user_password
+                      }
+                  }).then(() => {
+                    this.$router.replace({ name: 'index'})
+                  })
+            })
+         })
+      },
+      submit() {
+         this.createListingWithUser()
+      }
     }
 }
 </script>
