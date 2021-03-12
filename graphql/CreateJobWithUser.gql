@@ -1,6 +1,6 @@
-mutation CreateJobWithUser($job_title: String!, $job_location: String!,$job_link: String!,
- $company_name: String!, $company_logo: String!, $highlighted: Boolean! $pinned: Boolean!,
- $user_name:String!, $user_email: String!, $user_password: String!, $tags: [ID!]!) {
+mutation CreateJobWithUser($job_title: String, $job_location: String,$job_link: String,
+ $company_name: String, $company_logo: String, $highlighted: Boolean $pinned: Boolean,
+ $user_name:String, $user_email: String, $user_password: String, $tags: [ID!]) {
   createJobAndRegisterUser(input: {
 	  job_title: $job_title,
       job_location: $job_location,
