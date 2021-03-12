@@ -57,7 +57,7 @@
                <input type="checkbox" name="pinned" id="pinned" v-model="form.pinned"><label for="pinned">Pinned</label>
            </div>
          </div>
-           <div class="mb-10">
+           <div class="mb-10" v-if="!$auth.loggedIn">
                  <h2 class="mb-4 text-2xl font-bold">Create an account to manage your listing</h2>
                  <div class="bg-gray-400 p-6 rounded-lg">
                     <div class="mb-4">
@@ -94,6 +94,7 @@
 <script>
 import ALL_TAGS from '@/graphql/AllTags.gql'
 import CREATE_JOB_WITH_USER from '@/graphql/CreateJobWithUser.gql'
+import CREATE_JOB from '@/graphql/CreateJob.gql'
 export default {
     data() {
         return {
@@ -139,8 +140,22 @@ export default {
            this.errors = e.graphQLErrors[0].extensions.validation
          })
       },
+      createListing() {
+          this.$apollo.mutate({
+            mutation: CREATE_JOB,
+            variables: this.form
+          }).then(()=> {
+            this.$router.replace({ name: 'index'})
+          }).catch((e) => {
+            this.errors = e.graphQLErrors[0].extensions.validation
+          })
+      },
       submit() {
-         this.createListingWithUser()
+         if(!this.$auth.loggedIn) {
+            this.createListingWithUser()
+            return
+         }
+         this.createListing()
       }
     }
 }
