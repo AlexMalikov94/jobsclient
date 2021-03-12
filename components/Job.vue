@@ -22,10 +22,13 @@
             <div class="w-full md:w-4/12 mb-2">
                 <nuxt-link :to="{ name: 'tags-slug', params: { slug: tag.slug }}" v-for="tag in job.tags" :key="tag.slug" class="inline-block text-gray-600 border-2 border-gray-300 px-3 py-1 rounded-lg mr-2 bg-white">{{ tag.title }}</nuxt-link>
             </div>
-            <div>
-                <div class="opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            <div class="mb-2">
+                <slot name="action">
+                 <div class="opacity-100 md:opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                      <a :href="job.job_link" class="inline-block border-2 border-blue-400 text-blue-400 font-bold rounded-lg px-3 py-2 bg-white">Apply for this job</a>
                 </div>
+                </slot>
+               
                
             </div>
         </div>
